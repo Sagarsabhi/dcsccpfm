@@ -1,0 +1,54 @@
+import tensorflow as tf 
+import numpy as np 
+import matplotlib.pyplot as plt 
+# Load the CIFAR-10 dataset 
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data() 
+# Normalize pixel values to the range [0, 1] 
+x_train = x_train.astype('float32') / 255 
+x_test = x_test.astype('float32') / 255 
+# One-hot encode the labels 
+y_train = tf.keras.utils.to_categorical(y_train, 10) 
+y_test = tf.keras.utils.to_categorical(y_test, 10) 
+# Initializing the CNN 
+cnn = tf.keras.models.Sequential() 
+# Adding the first convolutional layer 
+cnn.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', 
+input_shape=[32, 32, 3])) 
+cnn.add(tf.keras.layers.MaxPool2D(pool_size=2, strides=2)) 
+# Adding a second convolutional layer 
+cnn.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu')) 
+cnn.add(tf.keras.layers.MaxPool2D(pool_size=2, strides=2)) 
+# Adding a third convolutional layer 
+cnn.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation='relu')) 
+cnn.add(tf.keras.layers.MaxPool2D(pool_size=2, strides=2)) 
+# Flattening the 2D outputs into a 1D vector 
+cnn.add(tf.keras.layers.Flatten()) 
+# Adding a fully connected layer 
+cnn.add(tf.keras.layers.Dense(units=128, activation='relu')) 
+# Adding the output layer with 10 units (for 10 classes) and softmax activation for 
+classification 
+ 
+ 
+cnn.add(tf.keras.layers.Dense(units=10, activation='softmax')) 
+# Compiling the CNN 
+cnn.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy']) 
+# Training the CNN on the CIFAR-10 dataset for 2 epochs 
+trained_model = cnn.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=2) 
+# Making a single prediction 
+# Select a test image 
+test_image_index = 0  # Change this index to see different predictions 
+test_image = x_test[test_image_index].reshape(1, 32, 32, 3) 
+# Predicting the class 
+results = cnn.predict(test_image) 
+predicted_class = np.argmax(results) 
+# CIFAR-10 class labels 
+class_indices = {0: 'Airplane', 1: 'Automobile', 2: 'Bird', 3: 'Cat', 4: 'Deer', 5: 'Dog', 6: 'Frog', 
+7: 'Horse', 8: 'Ship', 9: 'Truck'} 
+# Outputting the prediction 
+print("The model predicts:", class_indices[predicted_class]) 
+# Visualizing the test image and the prediction 
+plt.imshow(x_test[test_image_index]) 
+plt.title(f"Predicted: {class_indices[predicted_class]}") 
+plt.axis('off') 
+plt.show() 
+output: 
