@@ -1,0 +1,29 @@
+import tensorflow as tf 
+import numpy as np 
+ 
+# Creating a random 3D tensor 
+tensor = tf.random.normal((2, 3, 4)) 
+print("Original Tensor:\n", tensor) 
+ 
+# Slicing 
+slice_tensor = tensor[:, 1:3, :] 
+print("\nSliced Tensor:\n", slice_tensor) 
+ 
+# Indexing 
+element = tensor[0, 2, 1] 
+print("\nIndexed Element:\n", element) 
+ 
+# Reshaping with a compatible shape 
+reshaped_tensor = tf.reshape(tensor, (6, 4)) 
+print("\nReshaped Tensor:\n", reshaped_tensor)      
+   
+      output: 
+      Original Tensor: 
+ tf.Tensor( 
+[[[-0.09889743  2.4054482   1.5117266   0.5275964 ] 
+  [-1.3093826  -0.47874662  0.8714201   0.7404801 ] 
+  [-0.8318403   0.9781331   0.6102161   0.19692877]] 
+ 
+ [[ 0.3062454  -0.2522205   0.08439487  1.2429368 ] 
+  [ 1.0007105   0.02830439  0.6479562   1.4357091 ] 
+  [-2.756797   -1.2824311  -0.0771659
